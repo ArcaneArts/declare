@@ -3,9 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class MaterialUIGenerator extends StatelessWidget {
-  final Widget Function(BuildContext context) builder;
+  final Widget? home;
+  final ThemeData? lightTheme;
+  final ThemeData? darkTheme;
+  final DeclareThemeMode themeMode;
+  final String? title;
+  final Color? color;
 
-  const MaterialUIGenerator({super.key, required this.builder});
+  const MaterialUIGenerator(
+      {super.key,
+      required this.home,
+      this.lightTheme,
+      this.color,
+      this.title,
+      this.darkTheme,
+      this.themeMode = DeclareThemeMode.system});
 
   @override
   Widget build(BuildContext context) => UIGeneratorCluster(
@@ -16,7 +28,26 @@ class MaterialUIGenerator extends StatelessWidget {
           MaterialSectionGenerator(),
           MaterialTileGenerator()
         ],
-        builder: builder,
+        builder: (context) => MaterialApp(
+          title: title ?? "App",
+          color: color,
+          theme: lightTheme ??
+              ThemeData.light(
+                useMaterial3: true,
+              ).copyWith(
+                  colorScheme: ColorScheme.fromSeed(
+                      seedColor: const Color(0xFF3734eb),
+                      brightness: Brightness.light),
+                  brightness: Brightness.light),
+          darkTheme: darkTheme ??
+              ThemeData.dark(useMaterial3: true).copyWith(
+                  colorScheme: ColorScheme.fromSeed(
+                      seedColor: const Color(0xFF3734eb),
+                      brightness: Brightness.dark),
+                  brightness: Brightness.dark),
+          themeMode: themeMode.material,
+          home: home,
+        ),
       );
 }
 

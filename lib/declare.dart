@@ -1,11 +1,27 @@
 library declare;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show ThemeMode, Colors;
+import 'package:flutter/widgets.dart';
 import 'package:toxic/extensions/iterable.dart';
 
 export 'package:declare/generator/cupertino.dart';
 export 'package:declare/generator/material.dart';
+export 'package:declare/generator/shadcn.dart';
+
+enum DeclareThemeMode {
+  system,
+  light,
+  dark,
+}
+
+extension XDeclareThemeMode on DeclareThemeMode {
+  ThemeMode get material => switch (this) {
+        DeclareThemeMode.system => ThemeMode.system,
+        DeclareThemeMode.light => ThemeMode.light,
+        DeclareThemeMode.dark => ThemeMode.dark,
+      };
+}
 
 class UIGeneratorCluster extends StatelessWidget {
   final List<UIGenerator> generators;

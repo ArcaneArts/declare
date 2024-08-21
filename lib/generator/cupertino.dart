@@ -4,9 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 class CupertinoUIGenerator extends StatelessWidget {
-  final Widget Function(BuildContext context) builder;
+  final Widget? home;
+  final CupertinoThemeData? lightTheme;
+  final CupertinoThemeData? darkTheme;
+  final DeclareThemeMode themeMode;
+  final String? title;
+  final Color? color;
 
-  const CupertinoUIGenerator({super.key, required this.builder});
+  const CupertinoUIGenerator(
+      {super.key,
+      required this.home,
+      this.lightTheme,
+      this.color,
+      this.title,
+      this.darkTheme,
+      this.themeMode = DeclareThemeMode.system});
 
   @override
   Widget build(BuildContext context) => UIGeneratorCluster(
@@ -19,7 +31,24 @@ class CupertinoUIGenerator extends StatelessWidget {
         ],
         builder: (context) => CupertinoApp(
           debugShowCheckedModeBanner: false,
-          home: Builder(builder: builder),
+          home: home,
+          theme: switch (themeMode == DeclareThemeMode.system
+              ? WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+                      Brightness.light
+                  ? DeclareThemeMode.light
+                  : DeclareThemeMode.dark
+              : themeMode) {
+            DeclareThemeMode.light => lightTheme ??
+                const CupertinoThemeData(
+                    brightness: Brightness.light,
+                    scaffoldBackgroundColor:
+                        CupertinoColors.extraLightBackgroundGray),
+            DeclareThemeMode.dark => darkTheme ??
+                const CupertinoThemeData(brightness: Brightness.dark),
+            _ => throw UnimplementedError(),
+          },
+          color: color,
+          title: title ?? "App",
         ),
       );
 }

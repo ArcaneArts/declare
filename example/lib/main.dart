@@ -9,12 +9,9 @@ class AppTest extends StatelessWidget {
   const AppTest({super.key});
 
   @override
-  Widget build(BuildContext context) => CupertinoUIGenerator(
-      builder: (context) => MaterialApp(
-            theme: ThemeData.dark(),
-            home: ScreenTest(),
-            debugShowCheckedModeBanner: false,
-          ));
+  Widget build(BuildContext context) => const ShadcnUIGenerator(
+        home: ScreenTest(),
+      );
 }
 
 class ScreenTest extends StatelessWidget {

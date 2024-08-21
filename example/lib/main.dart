@@ -1,38 +1,71 @@
-import 'package:declare/declarables/collection.dart';
-import 'package:declare/declarables/tile.dart';
+import 'package:declare/declare.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AppTest());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AppTest extends StatelessWidget {
+  const AppTest({super.key});
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        home: Test(),
-        debugShowCheckedModeBanner: false,
-      );
+  Widget build(BuildContext context) => CupertinoUIGenerator(
+      builder: (context) => MaterialApp(
+            theme: ThemeData.dark(),
+            home: ScreenTest(),
+            debugShowCheckedModeBanner: false,
+          ));
 }
 
-class Test extends StatelessWidget {
-  const Test({super.key});
+class ScreenTest extends StatelessWidget {
+  const ScreenTest({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Collection(
+  Widget build(BuildContext context) => Screen(
+        header: TitleBar(title: "Counter App", actions: [
+          Button(
+            onPressed: () {},
+            text: 'Settings',
+            icon: Icons.settings,
+          )
+        ]),
+        action: Button(
+          onPressed: () {},
+          text: 'Increment',
+          icon: Icons.add,
+        ),
+        body: ListView(
           children: [
-            ...List.generate(
-                100,
-                (i) => Tile(
-                    title: Text("This is a title for $i"),
-                    subtitle:
-                        i % 2 == 0 ? Text("This is a subtitle for $i") : null,
-                    leading: i % 4 == 0 ? Icon(Icons.ac_unit) : null,
-                    trailing: i % 2 == 1 ? Icon(Icons.delete_rounded) : null,
-                    onPressed: () => print("Tile $i pressed"),
-                    onLongPressed: () => print("Tile $i long pressed")))
+            const Section(
+              children: [
+                Tile(
+                  leading: Icon(Icons.favorite_rounded),
+                  title: "Test",
+                ),
+                Tile(leading: Icon(Icons.favorite_rounded), title: "Test 2")
+              ],
+            ),
+            Section(
+              title: "Section Title",
+              leading: Icon(Icons.account_circle_rounded),
+              actions: [
+                Button(
+                  onPressed: () {},
+                  icon: Icons.settings_rounded,
+                )
+              ],
+              children: const [
+                Tile(
+                  leading: Icon(Icons.favorite_rounded),
+                  title: "Test",
+                ),
+                Tile(leading: Icon(Icons.favorite_rounded), title: "Test 2")
+              ],
+            ),
+            const Tile(
+              leading: Icon(Icons.favorite_rounded),
+              title: "Test",
+            ),
           ],
         ),
       );

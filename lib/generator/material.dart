@@ -1,11 +1,12 @@
 import 'package:declare/declare.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as m;
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 
-class MaterialUIGenerator extends StatelessWidget {
+class MaterialUIGenerator extends m.StatelessWidget {
   final Widget? home;
-  final ThemeData? lightTheme;
-  final ThemeData? darkTheme;
+  final m.ThemeData? lightTheme;
+  final m.ThemeData? darkTheme;
   final DeclareThemeMode themeMode;
   final String? title;
   final Color? color;
@@ -26,25 +27,26 @@ class MaterialUIGenerator extends StatelessWidget {
           MaterialScreenGenerator(),
           MaterialTitleBarGenerator(),
           MaterialSectionGenerator(),
-          MaterialTileGenerator()
+          MaterialTileGenerator(),
+          MaterialCardGenerator(),
         ],
-        builder: (context) => MaterialApp(
+        builder: (context) => m.MaterialApp(
           title: title ?? "App",
           color: color,
           theme: lightTheme ??
-              ThemeData.light(
+              m.ThemeData.light(
                 useMaterial3: true,
               ).copyWith(
-                  colorScheme: ColorScheme.fromSeed(
+                  colorScheme: m.ColorScheme.fromSeed(
                       seedColor: const Color(0xFF3734eb),
-                      brightness: Brightness.light),
-                  brightness: Brightness.light),
+                      brightness: m.Brightness.light),
+                  brightness: m.Brightness.light),
           darkTheme: darkTheme ??
-              ThemeData.dark(useMaterial3: true).copyWith(
-                  colorScheme: ColorScheme.fromSeed(
+              m.ThemeData.dark(useMaterial3: true).copyWith(
+                  colorScheme: m.ColorScheme.fromSeed(
                       seedColor: const Color(0xFF3734eb),
-                      brightness: Brightness.dark),
-                  brightness: Brightness.dark),
+                      brightness: m.Brightness.dark),
+                  brightness: m.Brightness.dark),
           themeMode: themeMode.material,
           home: home,
         ),
@@ -55,7 +57,7 @@ class MaterialTitleBarGenerator extends UIGenerator<TitleBar> {
   const MaterialTitleBarGenerator();
 
   @override
-  Widget build(BuildContext context, TitleBar data) => AppBar(
+  Widget build(BuildContext context, TitleBar data) => m.AppBar(
         title: Text(data.title),
         leading: data.leading?.withSocket(SocketType.icon),
         actions:
@@ -71,39 +73,39 @@ class MaterialButtonGenerator extends UIGenerator<Button> {
     SocketType? type = Socket.of(context);
 
     return switch (data) {
-      (Button b) when type == SocketType.icon && b.icon != null =>
-        IconButton(onPressed: b.onPressed, icon: Icon(b.icon), tooltip: b.text),
+      (Button b) when type == SocketType.icon && b.icon != null => m.IconButton(
+          onPressed: b.onPressed, icon: Icon(b.icon), tooltip: b.text),
       (Button b) when type == SocketType.icon && b.text != null =>
-        TextButton(onPressed: b.onPressed, child: Text(b.text!)),
+        m.TextButton(onPressed: b.onPressed, child: Text(b.text!)),
       (Button b)
           when type == SocketType.screenAction &&
               b.icon != null &&
               b.text == null =>
-        FloatingActionButton(onPressed: b.onPressed, child: Icon(b.icon!)),
+        m.FloatingActionButton(onPressed: b.onPressed, child: Icon(b.icon!)),
       (Button b)
           when type == SocketType.screenAction &&
               b.icon != null &&
               b.text != null =>
-        FloatingActionButton.extended(
+        m.FloatingActionButton.extended(
             onPressed: b.onPressed, icon: Icon(b.icon!), label: Text(b.text!)),
       (Button b)
           when type == SocketType.screenAction &&
               b.icon == null &&
               b.text != null =>
-        FloatingActionButton.extended(
+        m.FloatingActionButton.extended(
             onPressed: b.onPressed,
-            icon: const Icon(Icons.favorite_rounded),
+            icon: const Icon(m.Icons.favorite_rounded),
             label: Text(b.text!)),
       (Button b) when b.icon != null && b.text == null && b.elevated =>
-        FloatingActionButton(onPressed: b.onPressed, child: Icon(b.icon!)),
+        m.FloatingActionButton(onPressed: b.onPressed, child: Icon(b.icon!)),
       (Button b) when b.icon != null && b.text == null && !b.elevated =>
-        IconButton(onPressed: b.onPressed, icon: Icon(b.icon!)),
+        m.IconButton(onPressed: b.onPressed, icon: Icon(b.icon!)),
       (Button b) when b.icon == null && b.text != null && b.elevated =>
-        ElevatedButton(onPressed: b.onPressed, child: Text(b.text!)),
+        m.ElevatedButton(onPressed: b.onPressed, child: Text(b.text!)),
       (Button b) when b.icon == null && b.text != null && !b.elevated =>
-        TextButton(onPressed: b.onPressed, child: Text(b.text!)),
+        m.TextButton(onPressed: b.onPressed, child: Text(b.text!)),
       (Button b) when b.icon != null && b.text != null && b.elevated =>
-        ElevatedButton(
+        m.ElevatedButton(
             onPressed: b.onPressed,
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -114,7 +116,7 @@ class MaterialButtonGenerator extends UIGenerator<Button> {
               ],
             )),
       (Button b) when b.icon != null && b.text != null && !b.elevated =>
-        TextButton(
+        m.TextButton(
             onPressed: b.onPressed,
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -124,7 +126,7 @@ class MaterialButtonGenerator extends UIGenerator<Button> {
                 Text(b.text!),
               ],
             )),
-      _ => ElevatedButton(
+      _ => m.ElevatedButton(
           onPressed: data.onPressed,
           child: const SizedBox(width: 50, height: 50))
     };
@@ -135,7 +137,7 @@ class MaterialScreenGenerator extends UIGenerator<Screen> {
   const MaterialScreenGenerator();
 
   @override
-  Widget build(BuildContext context, Screen data) => Scaffold(
+  Widget build(BuildContext context, Screen data) => m.Scaffold(
         bottomNavigationBar: data.footer?.withSocket(SocketType.screenFooter),
         body: data.body,
         appBar: data.header != null
@@ -144,7 +146,7 @@ class MaterialScreenGenerator extends UIGenerator<Screen> {
                 child: data.header!.withSocket(SocketType.screenHeader),
               )
             : null,
-        floatingActionButton: data.action!.withSocket(SocketType.screenAction),
+        floatingActionButton: data.action?.withSocket(SocketType.screenAction),
       );
 }
 
@@ -152,12 +154,21 @@ class MaterialTileGenerator extends UIGenerator<Tile> {
   const MaterialTileGenerator();
 
   @override
-  Widget build(BuildContext context, Tile data) => ListTile(
+  Widget build(BuildContext context, Tile data) => m.ListTile(
         title: Text(data.title),
         leading: data.leading?.withSocket(SocketType.icon),
         trailing: data.trailing?.withSocket(SocketType.icon),
         onTap: data.onTap,
         subtitle: data.subtitle == null ? null : Text(data.subtitle!),
+      );
+}
+
+class MaterialCardGenerator extends UIGenerator<Card> {
+  const MaterialCardGenerator();
+
+  @override
+  Widget build(BuildContext context, Card data) => m.Card(
+        child: data.child,
       );
 }
 
@@ -181,7 +192,7 @@ class MaterialSectionGenerator extends UIGenerator<Section> {
                     ],
                     if (data.title != null)
                       Text(data.title!,
-                          style: Theme.of(context).textTheme.titleLarge),
+                          style: m.Theme.of(context).textTheme.titleLarge),
                     const Spacer(),
                     ...data.actions.map((e) => e.withSocket(SocketType.icon)),
                   ],

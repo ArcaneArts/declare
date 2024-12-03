@@ -10,60 +10,122 @@ class AppTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const ShadcnUIGenerator(
-        home: ScreenTest(),
+        home: MainTest(),
       );
 }
 
-class ScreenTest extends StatelessWidget {
-  const ScreenTest({super.key});
+class MainTest extends StatelessWidget {
+  const MainTest({super.key});
 
   @override
   Widget build(BuildContext context) => Screen(
-        header: TitleBar(title: "Counter App", actions: [
-          Button(
-            onPressed: () {},
-            text: 'Settings',
-            icon: Icons.settings,
-          )
-        ]),
-        action: Button(
-          onPressed: () {},
-          text: 'Increment',
-          icon: Icons.add,
-        ),
+        header: const TitleBar(title: "Declare Example"),
         body: ListView(
           children: [
-            const Section(
-              children: [
-                Tile(
-                  leading: Icon(Icons.favorite_rounded),
-                  title: "Test",
-                ),
-                Tile(leading: Icon(Icons.favorite_rounded), title: "Test 2")
-              ],
-            ),
-            Section(
-              title: "Section Title",
-              leading: Icon(Icons.account_circle_rounded),
-              actions: [
-                Button(
-                  onPressed: () {},
-                  icon: Icons.settings_rounded,
-                )
-              ],
-              children: const [
-                Tile(
-                  leading: Icon(Icons.favorite_rounded),
-                  title: "Test",
-                ),
-                Tile(leading: Icon(Icons.favorite_rounded), title: "Test 2")
-              ],
-            ),
-            const Tile(
-              leading: Icon(Icons.favorite_rounded),
-              title: "Test",
+            Tile(
+              leading: const Icon(Icons.radio_button_checked_sharp),
+              title: "Buttons",
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Buttons())),
             ),
           ],
+        ),
+      );
+}
+
+class Buttons extends StatelessWidget {
+  const Buttons({super.key});
+
+  @override
+  Widget build(BuildContext context) => Screen(
+        header: const TitleBar(title: "Buttons"),
+        body: Padding(
+          padding: const EdgeInsets.all(14),
+          child: ListView(
+            children: [
+              Section(
+                title: "Non Elevated",
+                children: [
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          text: "Text Only",
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          icon: Icons.add,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          text: "Text and Icon",
+                          icon: Icons.add,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Section(
+                title: "Elevated",
+                children: [
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          elevated: true,
+                          text: "Text Only",
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          elevated: true,
+                          icon: Icons.add,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Button(
+                          elevated: true,
+                          text: "Text and Icon",
+                          icon: Icons.add,
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       );
 }

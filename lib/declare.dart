@@ -7,6 +7,7 @@ import 'package:toxic/extensions/iterable.dart';
 
 export 'package:declare/generator/cupertino.dart';
 export 'package:declare/generator/material.dart';
+export 'package:declare/generator/neumorphic.dart';
 export 'package:declare/generator/shadcn.dart';
 
 enum DeclareThemeMode {
@@ -208,6 +209,16 @@ class Tile extends Declarable {
       this.subtitle,
       this.trailing,
       this.onTap});
+
+  @override
+  Widget build(BuildContext context) =>
+      UIGeneratorCluster.generate(context, this);
+}
+
+class Card extends Declarable {
+  final Widget child;
+
+  const Card({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) =>

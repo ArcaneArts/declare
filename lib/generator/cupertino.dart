@@ -1,6 +1,6 @@
 import 'package:declare/declare.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Theme;
 import 'package:gap/gap.dart';
 
 class CupertinoUIGenerator extends StatelessWidget {
@@ -28,6 +28,7 @@ class CupertinoUIGenerator extends StatelessWidget {
           CupertinoTitleBarGenerator(),
           CupertinoTileGenerator(),
           CupertinoSectionGenerator(),
+          CupertinoCardGenerator(),
         ],
         builder: (context) => CupertinoApp(
           debugShowCheckedModeBanner: false,
@@ -50,6 +51,15 @@ class CupertinoUIGenerator extends StatelessWidget {
           color: color,
           title: title ?? "App",
         ),
+      );
+}
+
+class CupertinoCardGenerator extends UIGenerator<Card> {
+  const CupertinoCardGenerator();
+
+  @override
+  Widget build(BuildContext context, Card data) => CupertinoListSection(
+        children: [data.child],
       );
 }
 

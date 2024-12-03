@@ -29,7 +29,8 @@ class ShadcnUIGenerator extends StatelessWidget {
           ShadcnScreenGenerator(),
           ShadcnTitleBarGenerator(),
           ShadcnSectionGenerator(),
-          ShadcnTileGenerator()
+          ShadcnTileGenerator(),
+          ShadcnCardGenerator(),
         ],
         builder: (context) => shad.ShadcnApp(
           debugShowCheckedModeBanner: false,
@@ -67,6 +68,15 @@ class ShadcnTitleBarGenerator extends UIGenerator<TitleBar> {
         leading: [
           if (data.leading != null) data.leading!.withSocket(SocketType.icon),
         ],
+      );
+}
+
+class ShadcnCardGenerator extends UIGenerator<Card> {
+  const ShadcnCardGenerator();
+
+  @override
+  Widget build(BuildContext context, Card data) => shad.Card(
+        child: data.child,
       );
 }
 

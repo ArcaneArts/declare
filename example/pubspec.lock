@@ -146,6 +146,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  gusto_neumorphic:
+    dependency: transitive
+    description:
+      name: gusto_neumorphic
+      sha256: "1ec4c6f18a6f3bcbb0317c8dc502c7f819bb749169bd7ecad47a6eb1621b3880"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
   http:
     dependency: transitive
     description:
